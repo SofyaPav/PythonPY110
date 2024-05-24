@@ -25,12 +25,9 @@ DIRECTION_TRANSFORM = {
 
 def current_weather(lat, lon):
     """
-    lat - широта в градусах
-    lon - долгота в градусах
+    Описание функции, входных и выходных переменных
     """
-
-
-    token = '0666779a-40c8-49db-ae92-779b8a72a921'  # Вставить ваш токен
+    token = "45015ce1-b680-4747-a57f-0d053d6231dd"  # Вставить ваш токен
     url = f"https://api.weather.yandex.ru/v2/forecast?lat={lat}&lon={lon}"  # Если вдруг используете тариф «Погода на вашем сайте»
     # то вместо forecast используйте informers. url = f"https://api.weather.yandex.ru/v2/informers?lat={lat}&lon={lon}"
     headers = {"X-Yandex-API-Key": f"{token}"}
