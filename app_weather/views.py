@@ -3,11 +3,11 @@
 # 'right = os.path.basename(cwd)'
 # left = os.path.dirname(cwd)
 # path = os.path.join(left, 'weather_api.py')
-# from path import current_weather
+from weather_api import current_weather
 import requests
 from datetime import datetime
 from django.http import JsonResponse
-
+from app_datetime.views import datetime_view
 # Словарь перевода значений направления ветра
 DIRECTION_TRANSFORM = {
     'n': 'северное',
@@ -30,30 +30,6 @@ DIRECTION_TRANSFORM = {
 }
 
 
-def current_weather(lat, lon):
-    """
-    Описание функции, входных и выходных переменных
-    """
-    token = "45015ce1-b680-4747-a57f-0d053d6231dd"  # Вставить ваш токен
-    url = f"https://api.weather.yandex.ru/v2/forecast?lat={lat}&lon={lon}"  # Если вдруг используете тариф «Погода на вашем сайте»
-    # то вместо forecast используйте informers. url = f"https://api.weather.yandex.ru/v2/informers?lat={lat}&lon={lon}"
-    headers = {"X-Yandex-API-Key": f"{token}"}
-    response = requests.get(url, headers=headers)
-    data = response.json()
-
-    # Данная реализация приведена для тарифа «Тестовый», если у вас Тариф «Погода на вашем сайте», то закомментируйте пару строк указанных ниже
-    result = {
-        'city': data['geo_object']['locality']['name'],  # Если используете Тариф «Погода на вашем сайте», то закомментируйте эту строку
-        'time': datetime.fromtimestamp(data['fact']['uptime']).strftime("%H:%M"),  # Если используете Тариф «Погода на вашем сайте», то закомментируйте эту строку
-        'temp': data['fact']['temp'],  # TODO Реализовать вычисление температуры из данных полученных от API
-        'feels_like_temp': data['fact']['feels_like'],  # TODO Реализовать вычисление ощущаемой температуры из данных полученных от API
-        'pressure': data['fact']['pressure_mm'],  # TODO Реализовать вычисление давления из данных полученных от API
-        'humidity': data['fact']['humidity'],  # TODO Реализовать вычисление влажности из данных полученных от API
-        'wind_speed': data['fact']['wind_speed'],  # TODO Реализовать вычисление скорости ветра из данных полученных от API
-        'wind_gust': data['fact']['wind_gust'],  # TODO Реализовать вычисление скорости порывов ветка из данных полученных от API
-        'wind_dir': DIRECTION_TRANSFORM.get(data['fact']['wind_dir']),  # Если используете Тариф «Погода на вашем сайте», то закомментируйте эту строку
-    }
-    return result
 
 
 def my_view(request):
