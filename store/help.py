@@ -1,4 +1,4 @@
-DATABASE = {'1': {'name': 'Болгарский перец',
+'''DATABASE = {'1': {'name': 'Болгарский перец',
                   'discount': 30,
                   'price_before': 300.00,
                   'price_after': 210.00,
@@ -167,7 +167,7 @@ DATABASE = {'1': {'name': 'Болгарский перец',
                    'html': 'chilli'
                    },
             }
-
+'''
 # a = ['яблоко', 'апельсин', 'банан']
 # a.sort()
 # print(a)
@@ -228,20 +228,56 @@ for i in DATABASE.values():
 for i in DATABASE.values():
     print(i['category'])  # Овощи Фрукты
 '''
-new_list_1 = []
-for i in DATABASE.values():
-    if i['category'] == 'Овощи':
-        new_list_1.append(i)
-print(new_list_1)
+# new_list_1 = []
+# for i in DATABASE.values():
+#     if i['category'] == 'Овощи':
+#         new_list_1.append(i)
+# print(new_list_1)
 
 
 
 
 # new_list_2 = [i for i in DATABASE.values() if i['category'] == 'Овощи']  # i в начале как new_list_2.append(i)
 # print(new_list_2)
-def get_name(dictionary):
-    return dictionary['name']
+#def get_name(dictionary):
+#     return dictionary['name']
+#
+#
+# new_list_1.sort(key=get_name)
+# print(new_list_1)
 
 
-new_list_1.sort(key=get_name)
-print(new_list_1)
+def filtering_category(database: dict[str, dict],
+                       category_key: [None, str] = None,
+                       ordering_key: [None, str] = None,
+                       reverse: bool = False):
+    if category_key is not None:
+        result = [i for i in DATABASE.values() if i['category'] == category_key]  # i в начале как new_list_2.append(i)
+    else:
+        result = [i for i in DATABASE.values()]
+    if ordering_key is not None:
+        result = sorted(result, key=lambda list_: list_[ordering_key], reverse=reverse)
+    return result
+
+
+if __name__ == "__main__":
+    from store.models import DATABASE
+
+    test = [
+        {'name': 'Клубника', 'discount': None, 'price_before': 500.0,
+         'price_after': 500.0,
+         'description': 'Сладкая и ароматная клубника, полная витаминов, чтобы сделать ваш день ярче.',
+         'rating': 5.0, 'review': 200, 'sold_value': 700,
+         'weight_in_stock': 400,
+         'category': 'Фрукты', 'id': 2, 'url': 'store/images/product-2.jpg',
+         'html': 'strawberry'},
+
+        {'name': 'Яблоки', 'discount': None, 'price_before': 130.0,
+         'price_after': 130.0,
+         'description': 'Сочные и сладкие яблоки - идеальная закуска для здорового перекуса.',
+         'rating': 4.7, 'review': 30, 'sold_value': 70, 'weight_in_stock': 200,
+         'category': 'Фрукты', 'id': 10, 'url': 'store/images/product-10.jpg',
+         'html': 'apple'}
+    ]
+
+    print(filtering_category(DATABASE, 'Фрукты', 'price_after', True) == test)  # True

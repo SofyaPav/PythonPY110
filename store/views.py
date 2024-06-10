@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from .models import DATABASE
 from django.http import HttpResponse, HttpResponseNotFound
-
+from logic.services import filtering_category
 
 def products_view(request):
     if request.method == "GET":
@@ -41,3 +41,26 @@ def products_page_view(request, page):
                 return HttpResponse(data)
 
         return HttpResponse(status=404)
+
+
+def products_view(request):
+    if request.method == "GET":
+        # Обработка id из параметров запроса (уже было реализовано ранее)
+        if id_product := request.GET.get("id"):
+            if data := DATABASE.get(id_product):
+                return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
+                                                             'indent': 4})
+            return HttpResponseNotFound("Данного продукта нет в базе данных")
+
+        # Обработка фильтрации из параметров запроса
+        category_key = request.GET.get("category")  # Считали 'category'
+        if ordering_key := request.GET.get("ordering"): # Если в параметрах есть 'ordering'
+            if request.GET.get("reverse").lower() == 'true': # Если в параметрах есть 'ordering' и 'reverse'=True
+                data = ... #  TODO Использовать filtering_category и провести фильтрацию с параметрами category, ordering, reverse=True
+            else:  # Если не обнаружили в адресно строке ...&reverse=true , значит reverse=False
+                data = ... #  TODO Использовать filtering_category и провести фильтрацию с параметрами category, ordering, reverse=False
+        else:
+            data = ... #  TODO Использовать filtering_category и провести фильтрацию с параметрами category
+        # В этот раз добавляем параметр safe=False, для корректного отображения списка в JSON
+        return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False,
+                                                                 'indent': 4})
