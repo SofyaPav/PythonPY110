@@ -15,10 +15,11 @@ def filtering_category(database: dict[str, dict],
     то возвращается пустой список
     """
     if category_key is not None:
-        result = ...  # TODO При помощи фильтрации в list comprehension профильтруйте товары по категории (ключ 'category') в продукте database. Или можете использовать
+        # TODO При помощи фильтрации в list comprehension профильтруйте товары по категории (ключ 'category') в продукте database. Или можете использовать
         # обычный цикл или функцию filter. Допустим фильтрацию в list comprehension можно сделать по следующему шаблону
         # [product for product in database.values() if ...] подумать, что за фильтрующее условие можно применить.
         # Сравните значение категории продукта со значением category_key
+         result = ...
     else:
         result = ...  # TODO Трансформируйте словарь словарей database в список словарей
         # В итоге должен быть [dict, dict, dict, ...], где dict - словарь продукта из database
